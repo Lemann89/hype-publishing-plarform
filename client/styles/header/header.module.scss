@@ -1,0 +1,44 @@
+.header {
+  padding: 12px 0;
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(186, 186, 186, 0.25);
+}
+
+.logo {
+  padding: 12px 0;
+  margin-right: 48px;
+
+  span {
+    font-size: 20px;
+    font-family: 'Kaushan Script', cursive;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.right {
+  display: flex;
+}
+
+.list {
+  align-items: center;
+  display: flex;
+}
+
+.item {
+  margin-right: 30px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.nav {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+}

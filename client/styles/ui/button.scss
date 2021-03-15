@@ -1,0 +1,32 @@
+.btn {
+  border: none;
+  background: transparent;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 5px 30px;
+
+  &__content {
+    color: inherit;
+    text-align: left;
+    font-weight: inherit;
+    font-size: inherit;
+  }
+
+  &--primary {
+    font-weight: 400;
+    font-size: 14px;
+    color: $white;
+    background: $black;
+    border-radius: 4px;
+  }
+
+  &--empty {
+    font-weight: 400;
+    font-size: 14px;
+    color: $black;
+    background: transparent;
+  }
+}

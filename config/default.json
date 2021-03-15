@@ -1,0 +1,6 @@
+{
+  "port": 2002,
+  "jwtSecret": "This is a simple blog application for the coursework.",
+  "mongoUri": "mongodb+srv://stevedoh:superstevedohpassword@cluster0.m4sqo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "baseUrl": "http://localhost:2002"
+}
