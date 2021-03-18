@@ -1,3 +1,5 @@
+@import "styles/abstracts/variables";
+
 .header {
   padding: 12px 0;
   background-color: #fff;
@@ -6,11 +8,10 @@
 
 .logo {
   padding: 12px 0;
-  margin-right: 48px;
 
   span {
     font-size: 20px;
-    font-family: 'Kaushan Script', cursive;
+    font-family: $KaushanScript;
   }
 }
 
@@ -22,6 +23,7 @@
 
 .right {
   display: flex;
+  align-items: center;
 }
 
 .list {
@@ -29,8 +31,8 @@
   display: flex;
 }
 
-.item {
-  margin-right: 30px;
+.listItem {
+  margin-right: $space;
 
   &:last-child {
     margin-right: 0;

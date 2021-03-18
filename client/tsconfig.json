@@ -18,6 +18,9 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
+  "parserOptions": {
+    "sourceType": "module",
+  },
   "include": [
     "next-env.d.ts",
     "**/*.ts",

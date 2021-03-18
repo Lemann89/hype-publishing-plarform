@@ -9,7 +9,7 @@ const PORT = process.env.PORT || config.get('port');
 app.use(express.json({ extended: true }));
 
 app.use('/api/auth', require('./controllers/auth.controller'));
-app.use('/api/post', require('./controllers/post.controller'));
+app.use('/api/posts', require('./controllers/post.controller'));
 app.use('/api/user', require('./controllers/user.controller'));
 
 async function start() {

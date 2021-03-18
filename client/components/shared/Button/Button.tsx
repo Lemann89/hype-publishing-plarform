@@ -1,5 +1,5 @@
 import React from 'react';
-import {classNames} from "../../utils/className";
+import {classNames} from "../../../utils/className";
 
 export enum ButtonTypes {
     Empty = 'btn--empty',
@@ -7,8 +7,13 @@ export enum ButtonTypes {
     Secondary = 'btn--secondary',
     Link = 'btn--link',
     Outline = 'btn--outline',
-    PrimaryOutline =  'btn--primary-outline',
+    PrimaryOutline = 'btn--primary-outline',
     SecondaryOutline = 'btn--secondary-outline'
+}
+
+export enum HtmlTypes {
+    A,
+    Button
 }
 
 
@@ -16,13 +21,23 @@ interface IProps {
     onClick?: () => {},
     disabled?: boolean,
     children?: string,
-    type?: ButtonTypes,
+    type: ButtonTypes,
+    htmlType: HtmlTypes,
     className?: string
 }
 
 
 const Button: React.FC<IProps> = (props) => {
-    const {onClick, disabled, children, type, className} = props
+    const {onClick, disabled, children, type, className, htmlType} = props;
+
+    if (htmlType === HtmlTypes.A) {
+        return (<a
+            className={classNames(['btn', className, type])}
+            onClick={onClick}
+        >
+            {children}
+        </a>);
+    }
 
     return (
         <button

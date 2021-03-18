@@ -1,0 +1,35 @@
+.icon {
+  display: inline-block;
+  width: $icon-w;
+  height: $icon-h;
+}
+
+.icon--sm {
+  width: $icon-w-sm;
+  height: $icon-h-sm;
+}
+
+.icon--xs {
+  width: $icon-w-xs;
+  height: $icon-h-xs;
+}
+
+.icon--md {
+  width: $icon-w-md;
+  height: $icon-h-md;
+}
+
+.icon--lg {
+  width: $icon-w-lg;
+  height: $icon-h-lg;
+}
+
+.icon--xl {
+  width: $icon-w-xl;
+  height: $icon-h-xl;
+}
+
+.icon--xxl {
+  width: $icon-w-xxl;
+  height: $icon-h-xxl;
+}

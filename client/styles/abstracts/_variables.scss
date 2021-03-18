@@ -1,0 +1,52 @@
+$size-point: 8px;
+
+// COLORS
+$white: #fff;
+$black: #000;
+$red: #ff0000;
+$gray: #595959;
+$light-gray: #F1F2F5;
+
+// FONT
+$fz-48: 48px;
+$fz-40: 40px;
+$fz-36: 36px;
+$fz-32: 32px;
+$fz-24: 24px;
+$fz-21: 21px;
+$fz-20: 20px;
+$fz-18: 18px;
+$fz-16: 16px;
+$fz-14: 14px;
+$fz-12: 12px;
+$fz-11: 11px;
+$fz-10: 10px;
+
+$KaushanScript: 'Kaushan Script', cursive;
+
+// SPACE
+$space-min: $size-point / 4;
+$space-xxs: $size-point / 2;
+$space-xs: $size-point;
+$space-sm: $size-point * 2;
+$space: $size-point * 3;
+$space-md: $size-point * 4;
+$space-lg: $size-point * 5;
+$space-xl: $size-point * 6;
+$space-xxl: $size-point * 7;
+
+// ICON
+$icon-w: 16px;
+$icon-h: $icon-w;
+$icon-w-xs: 8px;
+$icon-h-xs: $icon-w-xs;
+$icon-w-sm: 12px;
+$icon-h-sm: $icon-w-sm;
+$icon-w-md: 20px;
+$icon-h-md: $icon-w-md;
+$icon-w-lg: 24px;
+$icon-h-lg: $icon-w-lg;
+$icon-w-xl: 28px;
+$icon-h-xl: $icon-w-xl;
+$icon-w-xxl: 32px;
+$icon-h-xxl: $icon-w-xxl;

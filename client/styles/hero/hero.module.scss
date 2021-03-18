@@ -1,0 +1,45 @@
+@import "../abstracts/variables";
+
+.hero {
+  margin-top: 67px;
+  position: relative;
+}
+
+.heroBtnWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.heroBtn {
+  font-size: $fz-18;
+  padding: 7px 40px;
+}
+
+.img {
+  margin-left: -22%;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.main {
+  max-width: 385px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: 60px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: $fz-36;
+  line-height: 26px;
+}
+
+.description {
+  margin: $space-md 0;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+}

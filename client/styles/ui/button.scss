@@ -7,6 +7,7 @@
   justify-content: center;
   cursor: pointer;
   padding: 5px 30px;
+  line-height: 21px;
 
   &__content {
     color: inherit;
@@ -17,7 +18,7 @@
 
   &--primary {
     font-weight: 400;
-    font-size: 14px;
+    font-size: $fz-16;
     color: $white;
     background: $black;
     border-radius: 4px;
@@ -25,7 +26,7 @@
 
   &--empty {
     font-weight: 400;
-    font-size: 14px;
+    font-size: $fz-16;
     color: $black;
     background: transparent;
   }

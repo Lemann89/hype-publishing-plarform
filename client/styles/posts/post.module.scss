@@ -1,0 +1,49 @@
+@import "styles/abstracts/variables";
+
+.post {
+  background: $light-gray;
+  border-radius: 12px;
+  max-width: 245px;
+  height: 415px;
+  padding: $space-sm;
+  margin-left: $space-sm;
+  display: flex;
+  flex-direction: column;
+}
+
+.img {
+  border-radius: 12px;
+}
+
+.imgWrapper {
+  position: relative;
+  top: -33px;
+  left: -35px;
+}
+
+.title {
+  margin-top: -14px;
+  font-size: $fz-18;
+  color: $black;
+  line-height: 20px;
+}
+
+.description {
+  color: $gray;
+  margin: 12px 0;
+  font-size: $fz-16;
+  line-height: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
+.postBtnWrapper {
+  margin-top: auto;
+}
+
+.postBtn {
+  margin-left: auto;
+}
