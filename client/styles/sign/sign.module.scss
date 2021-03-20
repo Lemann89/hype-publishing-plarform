@@ -1,0 +1,44 @@
+.sign {
+  padding-top: 67px;
+}
+
+.title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 46px;
+  line-height: 48px;
+  margin-bottom: 37px;
+}
+
+.input {
+  width: 100%;
+  margin-bottom: 12px;
+  &:last-of-type {
+    margin-bottom: 24px;
+  }
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.lineRight {
+  position: absolute;
+  right: 0;
+}
+
+.lineLeft {
+  position: absolute;
+  left: 0;
+  top: 320px;
+}
+
+
+

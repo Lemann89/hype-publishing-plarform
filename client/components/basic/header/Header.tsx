@@ -1,18 +1,21 @@
 import React from 'react';
-import styles from '../../../styles/header/header.module.scss';
+import styles from '../../../styles/basics/header/header.module.scss';
 import Button, {ButtonTypes, HtmlTypes} from "../../shared/Button/Button";
 import Icon, {IconSizes} from "../../shared/Icon/Icon";
 import {Icons} from "../../shared/Icon/icons";
 import Link from 'next/link';
+import Container from "../container/Container";
 
 const Header: React.FC = () => {
     return (
         <header className={styles.header}>
-            <div className="container">
+            <Container>
                 <div className={styles.content}>
-                    <div className={styles.logo}>
-                        <span>hype.</span>
-                    </div>
+                    <Link href="/">
+                        <a className={styles.logo}>
+                            <span>hype.</span>
+                        </a>
+                    </Link>
                     <div className={styles.right}>
                         <Link href="/search">
                             <a className={styles.listItem}>
@@ -31,7 +34,7 @@ const Header: React.FC = () => {
                         </Link>
                     </div>
                 </div>
-            </div>
+            </Container>
         </header>
     );
 };

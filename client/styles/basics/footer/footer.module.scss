@@ -1,0 +1,30 @@
+@import "../../abstracts/variables";
+
+.footer {
+  flex: 0 0 auto;
+  background: $black;
+}
+
+.logo {
+  text-decoration: none;
+  color: $white;
+  padding: 12px 0;
+
+  span {
+    font-size: 20px;
+    font-family: $KaushanScript;
+  }
+}
+
+.content {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.author {
+  color: $white;
+  font-weight: 300;
+  font-size: 16px;
+}

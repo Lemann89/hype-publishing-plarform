@@ -3,7 +3,7 @@ import styles from '../../styles/posts/post.module.scss';
 import Image from 'next/image';
 import Button, {ButtonTypes, HtmlTypes} from "../shared/Button/Button";
 
-const Post = props => {
+const Post = () => {
     return (
         <div className={styles.post}>
             <div className={styles.imgWrapper}>

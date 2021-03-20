@@ -17,38 +17,42 @@ export enum HtmlTypes {
 }
 
 
-interface IProps {
+interface Props {
     onClick?: () => {},
     disabled?: boolean,
     children?: string,
     type: ButtonTypes,
-    htmlType: HtmlTypes,
-    className?: string
+    htmlType?: HtmlTypes,
+    className?: string,
+    isSubmit?: boolean
 }
 
-
-const Button: React.FC<IProps> = (props) => {
-    const {onClick, disabled, children, type, className, htmlType} = props;
+const Button: React.FC<Props> = React.forwardRef((props, ref) => {
+    const {onClick, disabled, children, type, className, htmlType, isSubmit = false, ...rest} = props;
 
     if (htmlType === HtmlTypes.A) {
-        return (<a
-            className={classNames(['btn', className, type])}
-            onClick={onClick}
-        >
-            {children}
-        </a>);
+        return (
+            <a
+                className={classNames(['btn', className, type])}
+                onClick={onClick}
+                {...rest}
+            >
+                {children}
+            </a>);
     }
 
     return (
         <button
+            type={isSubmit ? 'submit' : 'button'}
             className={classNames(['btn', className, type])}
             onClick={!disabled ? onClick : () => {
             }}
             disabled={disabled}
+            {...rest}
         >
             <span className="btn__content">{children}</span>
         </button>
     );
-};
+});
 
 export default Button;

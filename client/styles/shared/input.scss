@@ -1,0 +1,17 @@
+.input {
+  &__label {
+    font-size: 16px;
+    line-height: 25px;
+  }
+
+  &__element {
+    font-size: 16px;
+    height: 20px;
+    padding: 6px;
+    background: #F1F2F5;
+    border-radius: 4px;
+    display: block;
+    border: none;
+    width: 96%;
+  }
+}

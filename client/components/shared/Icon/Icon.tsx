@@ -12,14 +12,14 @@ export enum IconSizes {
     XXL = ' icon--xxl'
 }
 
-interface IProps {
+interface Props {
     type: Icons,
     size?: IconSizes,
     className?: string,
     onClick?: () => {},
 }
 
-const Icon: React.FC<IProps> = props => {
+const Icon: React.FC<Props> = props => {
     const {type, className, onClick, size} = props;
 
     const {markup, viewbox} = icons.get(type);

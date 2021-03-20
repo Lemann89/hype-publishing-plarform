@@ -1,12 +1,14 @@
 import React from 'react';
-import styles from '../../../styles/hero/hero.module.scss';
+import styles from '../../../styles/basics/hero/hero.module.scss';
 import Image from 'next/image';
 import Button, {ButtonTypes, HtmlTypes} from "../../shared/Button/Button";
+import Container from "../container/Container";
+import Link from 'next/link';
 
 const Hero = () => {
     return (
         <div className={styles.hero}>
-            <div className="container">
+            <Container>
                 <div className={styles.wrapper}>
                     <div className={styles.img}>
                         <Image src="/hero-img.png"
@@ -27,11 +29,13 @@ const Hero = () => {
                             black and white, and as technology improved, altered to color.
                         </p>
                         <div className={styles.heroBtnWrapper}>
-                            <Button htmlType={HtmlTypes.Button} className={styles.heroBtn} type={ButtonTypes.Primary}>Get Started</Button>
+                            <Link href="/signup">
+                                <Button htmlType={HtmlTypes.A} className={styles.heroBtn} type={ButtonTypes.Primary}>Get Started</Button>
+                            </Link>
                         </div>
                     </div>
                 </div>
-            </div>
+            </Container>
         </div>
     );
 };
