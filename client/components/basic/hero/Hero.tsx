@@ -10,8 +10,13 @@ const Hero = () => {
         <div className={styles.hero}>
             <Container>
                 <div className={styles.wrapper}>
+                    <img src="/GrumpyCat.jpg"
+                        alt="Hero"
+                        width={875}
+                        height={375}
+                    />
                     <div className={styles.img}>
-                        <Image src="/hero-img.png"
+                        <img src="/hero-img.png"
                             alt="Hero"
                             width={875}
                             height={375}
