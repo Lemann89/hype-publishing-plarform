@@ -7,11 +7,7 @@ const Post = () => {
     return (
         <div className={styles.post}>
             <div className={styles.imgWrapper}>
-                <Image src="/GrumpyCat.jpg"
-                    className={styles.img}
-                    width={247}
-                    height={192}
-                />
+                <img src="/GrumpyCat.jpg" className={styles.img} alt="post image"/>
             </div>
             <h3 className={styles.title}>
                 Talking to the Moon

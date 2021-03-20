@@ -5,6 +5,7 @@ import Input, {InputTypes} from "../../components/shared/Input/Input";
 import Button, {ButtonTypes} from "../../components/shared/Button/Button";
 import Image from "next/image";
 import Container from "../../components/basic/container/Container";
+import Lines from "../../components/lines/Lines";
 
 const Index = props => {
     const {register, handleSubmit, watch, errors} = useForm();
@@ -15,12 +16,7 @@ const Index = props => {
 
     return (
         <>
-            <div className={styles.lineRight}>
-                <Image src='/lines-right.png' width={397} height={404}/>
-            </div>
-            <div className={styles.lineLeft}>
-                <img src='/lines-left.png' width={449} height={404}/>
-            </div>
+            <Lines/>
             <div className={styles.sign}>
                 <div className={styles.container}>
                     <h1 className={styles.title}>
