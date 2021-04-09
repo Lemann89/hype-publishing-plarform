@@ -1,12 +1,17 @@
 const express = require('express');
 const config = require('config');
-const mongoose = require("mongoose");
-
 const app = express();
+const mongoose = require('mongoose');
+const cors = require('cors');
 
 const PORT = process.env.PORT || config.get('port');
 
-app.use(express.json({ extended: true }));
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+}));
+
+app.use(express.json({extended: true}));
 
 app.use('/api/auth', require('./controllers/auth.controller'));
 app.use('/api/posts', require('./controllers/post.controller'));

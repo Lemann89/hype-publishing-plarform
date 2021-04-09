@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from '../../../styles/basics/hero/hero.module.scss';
-import Image from 'next/image';
 import Button, {ButtonTypes, HtmlTypes} from "../../shared/Button/Button";
 import Container from "../container/Container";
 import Link from 'next/link';

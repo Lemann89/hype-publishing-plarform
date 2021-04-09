@@ -1,0 +1,14 @@
+.container {
+  max-width: 1340px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0 auto;
+
+  &--profile {
+    max-width: 1000px;
+  }
+
+  &--post {
+    max-width: 700px;
+  }
+}

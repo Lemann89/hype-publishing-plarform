@@ -6,6 +6,7 @@ export enum InputTypes {
     Text = "text",
     Checkbox = "checkbox",
     Radio = "radio",
+    File = "file",
     Password = "password",
 }
 
@@ -14,27 +15,39 @@ interface Props {
     placeholder?: string,
     type: InputTypes,
     className?: string,
-    onChange?: () => {},
+    onChange?: () => void,
     register?: any,
     name?: string,
+    textarea?: boolean,
 }
 
 const Input: React.FC<Props> = props => {
-    const {label, onChange, className, placeholder, type, register, name, ...rest} = props;
+    const {label, onChange, className, placeholder, type, register, name, textarea, ...rest} = props;
 
     return (
-        <div className={classNames(['input', className])}>
+        <div className={classNames(['input', className, `input--${type}`])}>
             <label className='input__label'>
                 {label}
-                <input
-                    ref={register}
-                    name={name}
-                    className='input__element'
-                    placeholder={placeholder}
-                    type={type}
-                    onChange={onChange}
-                    {...rest}
-                />
+                {
+                    textarea ? (<textarea
+                        ref={register}
+                        name={name}
+                        className='input__element input__element--textarea'
+                        placeholder={placeholder}
+                        onChange={onChange}
+                        {...rest}
+                    >
+                    </textarea>) :
+                        (<input
+                            ref={register}
+                            name={name}
+                            className={classNames(['input__element'])}
+                            placeholder={placeholder}
+                            type={type}
+                            onChange={onChange}
+                            {...rest}
+                        />)
+                }
             </label>
         </div>
     );

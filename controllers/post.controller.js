@@ -3,36 +3,37 @@ const {check, validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const Post = require('../models/post.model');
 const User = require('../models/user.model');
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+const HTMLParser = require('node-html-parser');
 
 const router = Router();
 
 router.post(
-    '/add',
-    [
-        check('title', 'Please enter title').exists(),
-        check('text', 'Please enter text').exists()
-    ],
+    '/',
+    upload.single('image'),
     async (req, res) => {
         try {
-            const errors = validationResult(req);
-
-            if (!errors.isEmpty()) {
-                return res.status(400).json({
-                    errors: errors.array(),
-                    message: 'Incorrect data'
-                });
-            }
-
-            const { title, text, tags } = req.body;
             const token = req.headers.authorization.split(" ")[1];
             const userId = jwt.decode(token).userId;
 
-            const post = new Post({title, text, tags, author: userId});
+            const postData = {
+                ...req.body,
+                articlePreview: HTMLParser.parse(req.body.articleMarkup).text.substring(0, 450),
+                tags: JSON.parse(req.body.tags),
+                author: userId,
+            };
+
+            if(req.file) {
+                const base64Image = 'data:image/png;base64, ' + new Buffer(req.file.buffer).toString('base64');
+                postData.img = base64Image;
+            }
+
+            const post = new Post(postData);
             const user = await User.findById(userId);
 
-
             user.posts.push(post._id);
-            console.log(user.posts);
             post.save();
             user.save();
 
@@ -45,7 +46,8 @@ router.post(
 
 router.get('/', async (req, res) => {
     try {
-        const posts = await Post.find().populate('author', 'login');
+        const quantity = req.query.quantity;
+        const posts = await Post.find({}, {articleMarkup: 0}).populate('author', ['name', 'email']).limit(+quantity);
         res.status(200).json(posts);
     } catch (e) {
         console.log(e);
@@ -56,7 +58,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const post = await Post.findById(id).populate('author', 'login');
+        const post = await Post.findById(id).populate('author', ['name', 'email']);
         res.status(200).json(post);
     } catch (e) {
         res.status(500).json({message: 'Something went wrong'});
@@ -66,7 +68,7 @@ router.get('/:id', async (req, res) => {
 router.post('/tag', async (req, res) => {
     try {
         const { tag } = req.body;
-        const posts = await Post.find({tags: tag}).populate('author', 'login');
+        const posts = await Post.find({tags: tag}).populate('author', 'email');
         res.status(200).json(posts);
     } catch (e) {
         res.status(500).json({message: 'Something went wrong'});

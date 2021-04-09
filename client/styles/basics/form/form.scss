@@ -1,0 +1,8 @@
+.form {
+  &__error-message {
+    position: relative;
+    font-size: 12px;
+    top: -5px;
+    color: red;
+  }
+}

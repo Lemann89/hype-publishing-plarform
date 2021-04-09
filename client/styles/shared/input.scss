@@ -13,5 +13,27 @@
     display: block;
     border: none;
     width: 96%;
+
+    &--textarea {
+      min-height: 100px;
+      max-width: 100%;
+      min-width: 200px;
+      max-height: 200px;
+    }
+  }
+
+  &--file {
+    .input__label {
+      cursor: pointer;
+      width: 150px;
+      background: black;
+      color: white;
+      border-radius: 4px;
+      padding: 5px 30px;
+    }
+
+    .input__element {
+      display: none;
+    }
   }
 }

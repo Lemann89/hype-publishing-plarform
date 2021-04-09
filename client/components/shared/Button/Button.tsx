@@ -18,7 +18,7 @@ export enum HtmlTypes {
 
 
 interface Props {
-    onClick?: () => {},
+    onClick?: () => void,
     disabled?: boolean,
     children?: string,
     type: ButtonTypes,

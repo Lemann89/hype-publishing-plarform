@@ -13,9 +13,10 @@
 .input {
   width: 100%;
   margin-bottom: 12px;
-  &:last-of-type {
-    margin-bottom: 24px;
-  }
+}
+
+.btn {
+  margin-top: 12px;
 }
 
 .form {

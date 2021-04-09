@@ -10,6 +10,8 @@ const router = Router();
 router.post(
     '/register',
     [
+        check('email', 'Please enter correct email').isEmail(),
+        check('name', 'Please enter name').exists(),
         check('password', 'Incorrect password format')
             .isLength({min: 6})
     ],
@@ -24,16 +26,20 @@ router.post(
                 });
             }
 
-            const {login, password} = req.body;
+            const {email, password, name} = req.body;
 
-            const candidate = await User.findOne({login});
+            const candidate = await User.findOne({email});
+
+            // @TODO add unique indexes in db and handle exception
 
             if (candidate) {
-                return res.status(409).json({message: 'This login is already used'});
+                return res.status(409).json({message: 'This email is already used'});
             }
 
+            const img = 'https://www.worldfuturecouncil.org/wp-content/uploads/2020/06/blank-profile-picture-973460_1280-1.png';
+
             const hashedPassword = await bcrypt.hash(password, 12);
-            const user = new User({login, password: hashedPassword});
+            const user = new User({email, password: hashedPassword, name, img});
 
             user.save();
 
@@ -47,7 +53,7 @@ router.post(
 router.post(
     '/login',
     [
-        check('login', 'Please enter login').exists(),
+        check('email', 'Please enter correct email').exists(),
         check('password', 'Please enter password').exists()
     ],
     async (req, res) => {
@@ -61,9 +67,9 @@ router.post(
                 });
             }
 
-            const {login, password} = req.body;
+            const {email, password} = req.body;
 
-            const user = await User.findOne({login});
+            const user = await User.findOne({email});
 
             if (!user) {
                 return res.status(400).json({message: 'User was not found'});
@@ -81,7 +87,7 @@ router.post(
                 {expiresIn: '24h'}
             );
 
-            res.status(200).json({token, userId: user.id});
+            res.status(200).json({token});
 
         } catch (e) {
             res.status(500).json({message: 'Something went wrong'});

@@ -9,9 +9,12 @@ const schema = new Schema({
         type: String,
         required: true
     },
-    text: {
+    articleMarkup: {
         type: String,
         required: true
+    },
+    articlePreview: {
+        type: String,
     },
     tags: {
         type: Array
@@ -22,6 +25,9 @@ const schema = new Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    img: {
+        type: String,
     },
     comments: {
         type: Array
