@@ -1,3 +1,3 @@
 export enum Environment {
-    BASE_URL = 'https://still-tor-35775.herokuapp.com/api'
+    BASE_URL = 'https://hype-backend-123.herokuapp.com/api'
 }
