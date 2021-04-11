@@ -19,6 +19,7 @@ app.use(function(req, res, next) {
     next();
 });
 
+
 app.use(express.json({extended: true}));
 
 app.use('/api/auth', require('./controllers/auth.controller'));
