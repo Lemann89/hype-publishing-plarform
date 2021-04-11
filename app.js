@@ -7,7 +7,7 @@ const cors = require('cors');
 const PORT = process.env.PORT || config.get('port');
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://hype1-seven.vercel.app/',
     credentials: true,
 }));
 
