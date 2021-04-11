@@ -7,12 +7,12 @@ const cors = require('cors');
 const PORT = process.env.PORT || config.get('port');
 
 app.use(cors({
-    origin: 'https://hype1-dm2bhb1vv-lemann89.vercel.app/',
+    origin: 'https://hype1-dm2bhb1vv-lemann89.vercel.app',
     credentials: true,
 }));
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", 'https://hype1-dm2bhb1vv-lemann89.vercel.app/');
+    res.header("Access-Control-Allow-Origin", 'https://hype1-dm2bhb1vv-lemann89.vercel.app');
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
