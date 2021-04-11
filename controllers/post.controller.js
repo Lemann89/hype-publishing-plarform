@@ -1,12 +1,15 @@
 const {Router} = require('express');
-const {check, validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 const Post = require('../models/post.model');
 const User = require('../models/user.model');
-const multer = require('multer');
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
 const HTMLParser = require('node-html-parser');
+const multer = require('multer');
+const uploadImageToStorage = require('../utils/uploadImageToStorage');
+
+const upload = multer({
+    storage: multer.memoryStorage(),
+});
 
 const router = Router();
 
@@ -25,9 +28,10 @@ router.post(
                 author: userId,
             };
 
-            if(req.file) {
-                const base64Image = 'data:image/png;base64, ' + new Buffer(req.file.buffer).toString('base64');
-                postData.img = base64Image;
+            const file = req.file;
+
+            if (file) {
+                postData.img = await uploadImageToStorage(file);
             }
 
             const post = new Post(postData);
@@ -37,7 +41,7 @@ router.post(
             post.save();
             user.save();
 
-            res.status(200).json({message: 'Post was created'});
+            res.status(200).json({_id: post._id, message: 'Post was created'});
 
         } catch (e) {
             res.status(500).json({message: 'Something went wrong'});
@@ -47,7 +51,7 @@ router.post(
 router.get('/', async (req, res) => {
     try {
         const quantity = req.query.quantity;
-        const posts = await Post.find({}, {articleMarkup: 0}).populate('author', ['name', 'email']).limit(+quantity);
+        const posts = await Post.find({}, {articleMarkup: 0}).sort('-date').populate('author', ['name', 'email']).limit(+quantity);
         res.status(200).json(posts);
     } catch (e) {
         console.log(e);
@@ -58,7 +62,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const post = await Post.findById(id).populate('author', ['name', 'email']);
+        const post = await Post.findById(id).populate('author', ['name', 'email', 'img']);
         res.status(200).json(post);
     } catch (e) {
         res.status(500).json({message: 'Something went wrong'});
@@ -67,7 +71,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/tag', async (req, res) => {
     try {
-        const { tag } = req.body;
+        const {tag} = req.body;
         const posts = await Post.find({tags: tag}).populate('author', 'email');
         res.status(200).json(posts);
     } catch (e) {
@@ -75,19 +79,41 @@ router.post('/tag', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
-    try {
-        await Post.updateOne({_id: req.params.id}, req.body, {new: true});
-        res.status(200).json({message: 'Post was updated'});
-    } catch (e) {
-        console.log(e);
-        res.status(500).json({message: 'Something went wrong'});
-    }
-});
+router.put('/:id',
+    upload.single('image'),
+    async (req, res) => {
+        try {
+            const token = req.headers.authorization.split(" ")[1];
+            const userId = jwt.decode(token).userId;
+
+            const postData = {
+                ...req.body,
+                tags: JSON.parse(req.body.tags),
+                articlePreview: HTMLParser.parse(req.body.articleMarkup).text.substring(0, 450),
+            };
+
+            const file = req.file;
+
+            if (file) {
+                postData.img = await uploadImageToStorage(file);
+            }
+
+            const postId = req.params.id;
+
+            await Post.findOneAndUpdate({_id: postId, author: mongoose.Types.ObjectId(userId)}, postData, {new: true});
+            res.status(200).json({_id: postId, message: 'Post was updated'});
+        } catch (e) {
+            console.log(e);
+            res.status(500).json({message: 'Something went wrong'});
+        }
+    });
 
 router.delete('/:id', async (req, res) => {
     try {
-        await Post.deleteOne({_id: req.params.id});
+        const token = req.headers.authorization.split(" ")[1];
+        const userId = jwt.decode(token).userId;
+
+        await Post.deleteOne({_id: req.params.id, author: mongoose.Types.ObjectId(userId)});
         res.status(200).json({message: 'Post was deleted'});
     } catch (e) {
         res.status(500).json({message: 'Something went wrong'});

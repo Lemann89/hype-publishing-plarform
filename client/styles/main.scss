@@ -1,3 +1,5 @@
+@import '~react-quill/dist/quill.snow.css';
+
 @import "abstracts/fonts";
 @import "abstracts/variables";
 @import "abstracts/mixins";
@@ -5,6 +7,12 @@
 @import "shared/button";
 @import "shared/input";
 @import "shared/icons";
+@import "shared/burger-button";
 
 @import "basics/form/form";
 @import "basics/container/container";
+
+@import "basics/header/header";
+
+@import "write/write";
+@import "posts/post";

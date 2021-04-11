@@ -1,9 +1,14 @@
+@import "styles/abstracts/mixins";
+
 .user {
   width: 27%;
 
+  @include break(768) {
+    width: 100%;
+  }
+
   &__img {
-    max-width: 240px;
-    max-height: 240px;
+    height: 250px;
     margin: 0 auto;
 
     & > img {
@@ -24,7 +29,7 @@
 
   &__description {
     margin: 15px auto 0;
-    max-width: 220px;
+    max-width: 250px;
     font-weight: 400;
     font-size: 16px;
     line-height: 21px;
@@ -32,20 +37,30 @@
   }
 
   &__input {
-    margin-top: 15px;
-  }
-
-  &__btnSave {
     margin-top: 20px;
   }
 
   &__btnEdit {
     margin: 20px auto 0;
   }
+
+  &__btnUndo {
+    margin-left: 20px;
+  }
+
+  &__actions {
+    margin-top: 20px;
+    display: flex;
+  }
 }
 
 .posts {
   width: 63%;
+
+  @include break(768) {
+    margin-top: 30px;
+    width: 100%;
+  }
 
   &__title {
     font-weight: 600;
@@ -69,4 +84,8 @@
   margin-top: 67px;
   display: flex;
   justify-content: space-between;
+
+  @include break(768) {
+    flex-direction: column;
+  }
 }

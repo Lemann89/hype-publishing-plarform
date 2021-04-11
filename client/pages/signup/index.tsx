@@ -9,15 +9,17 @@ import {login, signup} from "../../services/auth";
 import {setIsAuthorized} from "../../store/actions/authActions";
 import {useRouter} from "next/router";
 import { mailRegex } from '../../utils/regexes';
+import {useMediaQuery} from "../../hooks/useMediaQuery";
 
 
 const Index = () => {
     const {register, handleSubmit, errors, watch} = useForm();
-    const password = useRef({});
-    password.current = watch("password", "");
-
     const dispatch = useDispatch();
     const router = useRouter();
+    const isMobile = useMediaQuery(768);
+
+    const password = useRef({});
+    password.current = watch("password", "");
 
     const onLoginSuccess = (token) => {
         document.cookie = `token=${token}`;
@@ -41,7 +43,9 @@ const Index = () => {
 
     return (
         <>
-            <Lines/>
+            {
+                !isMobile && <Lines/>
+            }
             <div className={styles.sign}>
                 <div className={styles.container}>
                     <h1 className={styles.title}>

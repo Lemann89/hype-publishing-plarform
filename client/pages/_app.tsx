@@ -3,7 +3,6 @@ import '../styles/main.scss';
 import Layout from "../components/basic/layout/Layout";
 import {wrapper} from "../store";
 import App, {AppContext, AppInitialProps, AppProps} from "next/app";
-import {FC} from 'react';
 import cookies from "next-cookies";
 import {AuthActionsTypes} from "../types/auth";
 

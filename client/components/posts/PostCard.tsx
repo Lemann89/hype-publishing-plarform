@@ -33,7 +33,7 @@ const PostCard: React.FC<Props> = ({wide, post}) => {
                             htmlType={HtmlTypes.A}
                             className={styles.postBtn}
                             onClick={() => {router.push(`/posts/${_id}`);}}
-                            type={ButtonTypes.Primary}>Learn More</Button>
+                            type={ButtonTypes.Primary}>Read More</Button>
                     }
                 </div>
             </div>

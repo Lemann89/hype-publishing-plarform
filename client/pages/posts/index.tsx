@@ -4,10 +4,12 @@ import styles from '../../styles/posts/postCards.module.scss';
 import {wrapper} from "../../store";
 import PostCard from "../../components/posts/PostCard";
 import {useRouter} from 'next/router';
-import {postService} from "../../services/post";
+import {PostService} from "../../services/post";
+import {useMediaQuery} from "../../hooks/useMediaQuery";
 
 const Index = ({posts}) => {
     const router = useRouter();
+    const isMobile = useMediaQuery(768);
 
     return (
         <div className={styles.posts}>
@@ -16,7 +18,7 @@ const Index = ({posts}) => {
                     posts.map(post => {
                         return (
                             <div className={styles.post} onClick={() => {router.push(`/posts/${post._id}`);}} key={post._id}>
-                                <PostCard wide post={post}/>
+                                <PostCard wide={!isMobile} post={post}/>
                             </div>
                         );
                     })
@@ -27,9 +29,9 @@ const Index = ({posts}) => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async () => {
-    const postServ = new postService();
+    const postService = new PostService();
 
-    const posts = await postServ.getAll();
+    const posts = await postService.getAll();
 
     return {
         props: {posts}

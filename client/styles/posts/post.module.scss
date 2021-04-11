@@ -1,10 +1,47 @@
+@import "styles/abstracts/mixins";
+
 .post {
   padding: 70px 0;
 
   &__info {
+    display: flex;
+    align-items: center;
+  }
+
+  &__infoWrapper {
     margin-top: 40px;
     display: flex;
     align-items: center;
+
+    @include break(768) {
+      flex-direction: column;
+    }
+  }
+
+  &__actions {
+    margin-left: auto;
+    display: flex;
+
+    @include break(768) {
+      margin-top: 20px;
+      margin-left: 0;
+    }
+  }
+
+  &__actionBtn {
+    margin-right: 15px;
+    font-size: 16px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__actionBtnDelete {
+    border-color: #ff0000;
+    color: #ff0000;
+    outline-color: #ff0000;
+    margin-left: 20px;
   }
 
   &__infoItem {
@@ -22,6 +59,7 @@
   &__img {
     margin-top: 40px;
     width: 100%;
+
     & > img {
       border-radius: 8px;
       width: 100%;
@@ -73,6 +111,11 @@
     margin: 0 15px;
     font-size: 16px;
     line-height: 16px;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
   }
 }
 

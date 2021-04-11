@@ -1,3 +1,5 @@
+@import "../abstracts/mixins";
+
 .posts {
   padding: 60px 0;
 }
@@ -6,7 +8,19 @@
   cursor: pointer;
 }
 
+.postsTitle {
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 26px;
+  margin-bottom: 50px;
+}
+
+.postsBtn {
+  max-width: 150px;
+}
+
 .wrapper {
+  flex-wrap: wrap;
   display: flex;
   justify-content: space-between;
 }

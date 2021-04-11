@@ -9,15 +9,14 @@ import {useForm} from "react-hook-form";
 import Button, {ButtonTypes} from "../../components/shared/Button/Button";
 import Input, {InputTypes} from '../../components/shared/Input/Input';
 import {useDispatch} from "react-redux";
-import {userService} from "../../services/user";
+import {UserService} from "../../services/user";
 import {toast, ToastTypes} from "../../utils/toast/toast";
 import PostCard from '../../components/posts/PostCard';
+import {getImagePreview} from "../../utils/files/getImagePreview";
 
 
 const Index = ({token, posts}) => {
-    const userServ = new userService();
-
-    console.log(posts);
+    const userService = new UserService();
 
     const [avatarPreview, setAvatarPreview] = useState(null);
     const [isEditProfile, setIsEditProfile] = useState(false);
@@ -57,28 +56,21 @@ const Index = ({token, posts}) => {
         const formData = new FormData();
 
         if (data.avatar.length) {
-            formData.append('file', data.avatar[0]);
+            formData.append('image', data.avatar[0]);
         }
 
         formData.append('name', data.name);
         formData.append('description', data.description);
 
-        userServ.update(formData, token, {
+        userService.update(formData, token, {
             success: () => {
                 onUserUpdated(data);
             }
         });
     };
 
-    const onFileSelected = () => {
-        const reader = new FileReader();
-
-        reader.readAsDataURL(avatar.current[0]);
-
-        reader.onloadend = () => {
-            const image = reader.result;
-            setAvatarPreview(image);
-        };
+    const onImageSelected = async () => {
+        setAvatarPreview(await getImagePreview(avatar.current[0]));
     };
 
     const profile = () => {
@@ -112,7 +104,7 @@ const Index = ({token, posts}) => {
                     register={register}
                     type={InputTypes.File}
                     name="avatar"
-                    onChange={onFileSelected}/>
+                    onChange={onImageSelected}/>
                 <Input
                     className={styles.user__input}
                     label="Name"
@@ -128,17 +120,56 @@ const Index = ({token, posts}) => {
                     register={register}
                     textarea
                 />
-                <Button
-                    className={styles.user__btnSave}
-                    type={ButtonTypes.Primary}
-                    isSubmit={true}
-                >
-                    Save
-                </Button>
-
+                <div className={styles.user__actions}>
+                    <Button
+                        className={styles.user__btnSave}
+                        type={ButtonTypes.Primary}
+                        isSubmit={true}
+                    >
+                        Save
+                    </Button>
+                    <Button
+                        className={styles.user__btnUndo}
+                        type={ButtonTypes.Primary}
+                        onClick={() => {
+                            setIsEditProfile(false)
+                        }}
+                    >
+                        Undo
+                    </Button>
+                </div>
             </>
         );
     };
+
+    const withoutPosts = () => {
+        return (
+            <>
+                <h3 className={styles.posts__title}>
+                    You don't have any posts yet 🤷
+                </h3>
+            </>
+        )
+    }
+
+    const withPosts = () => {
+        return (
+            <>
+                <h3 className={styles.posts__title}>
+                    Posts
+                </h3>
+                <div className={styles.posts__wrapper}>
+                    {
+                        posts.map(post =>
+                            <div className={styles.post} key={post._id}>
+                                <PostCard post={post}/>
+                            </div>
+                        )
+                    }
+                </div>
+            </>
+        )
+    }
 
     return (
         <Container profile>
@@ -152,32 +183,21 @@ const Index = ({token, posts}) => {
                     </form>
                 </div>
                 <div className={styles.posts}>
-                    <h3 className={styles.posts__title}>
-                        Posts
-                    </h3>
-                    <div className={styles.posts__wrapper}>
-                        {
-                            posts.map(post =>
-                                <div className={styles.post} key={post._id}>
-                                    <PostCard post={post}/>
-                                </div>
-                            )
-                        }
-                    </div>
+                    {posts.length ? withPosts() : withoutPosts()}
                 </div>
             </div>
         </Container>);
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
+    const userService = new UserService();
+
     const token = cookies(ctx).token;
 
     const dispatch = ctx.store.dispatch as NextThunkDispatch;
     await dispatch(await getUserProfile(token));
 
-    const userServ = new userService();
-
-    const posts = await userServ.getPosts(token);
+    const posts = await userService.getPosts(token);
 
     return {
         props: {

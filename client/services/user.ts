@@ -1,12 +1,12 @@
 import {apiRequest} from "../utils/request";
 import {ICallbacks} from "../utils/request/types";
 
-export class userService {
+export class UserService {
     update(data, token, callbacks: ICallbacks) {
         apiRequest({
             url: '/user/profile',
             method: 'PUT',
-            data: data,
+            data,
             token,
             callbacks
         });

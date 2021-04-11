@@ -9,13 +9,15 @@ import {setIsAuthorized} from "../../store/actions/authActions";
 import {ILogin} from "../../types/auth";
 import {useRouter} from "next/router";
 import {login} from "../../services/auth";
-import { mailRegex } from '../../utils/regexes';
+import {mailRegex} from '../../utils/regexes';
+import {toast, ToastTypes} from "../../utils/toast/toast";
+import {useMediaQuery} from "../../hooks/useMediaQuery";
 
 const Index = () => {
     const {register, handleSubmit, errors} = useForm();
-
     const dispatch = useDispatch();
     const router = useRouter();
+    const isMobile = useMediaQuery(768);
 
     const onLoginSuccess = (token) => {
         document.cookie = `token=${token}`;
@@ -26,14 +28,15 @@ const Index = () => {
     const onSubmit = (data: ILogin) => {
         login(data, {
             success: (res) => {onLoginSuccess(res.token);},
-            error: (err) => {
-                console.log(err);}
+            error: (err) => {toast(ToastTypes.DANGER, 'Error', 'Please check your credentials');}
         });
     };
 
     return (
         <>
-            <Lines/>
+            {
+                !isMobile && <Lines/>
+            }
             <div className={styles.sign}>
                 <div className={styles.container}>
                     <h1 className={styles.title}>

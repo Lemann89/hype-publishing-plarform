@@ -1,6 +1,6 @@
 import Hero from "../components/basic/hero/Hero";
 import {GetServerSideProps} from "next";
-import {postService} from "../services/post";
+import {PostService} from "../services/post";
 import styles from "../styles/posts/postCards.module.scss";
 import Container from "../components/basic/container/Container";
 import PostCard from "../components/posts/PostCard";
@@ -10,13 +10,14 @@ import Link from "next/link";
 
 export default function Home({posts}) {
 
-    console.log(posts);
-
     return (
         <div>
             <Hero/>
             <div className={styles.posts}>
                 <Container>
+                    <h2 className={styles.postsTitle}>
+                        Last posts
+                    </h2>
                     <div className={styles.wrapper}>
                         {
                             posts.map(post =>
@@ -26,14 +27,16 @@ export default function Home({posts}) {
                             )
                         }
                     </div>
-                    <Link href="/posts">
-                        <Button
-                            type={ButtonTypes.Primary}
-                            htmlType={HtmlTypes.A}
-                        >
-                            See All
-                        </Button>
-                    </Link>
+                    <div className={styles.postsBtn}>
+                        <Link href="/posts">
+                            <Button
+                                type={ButtonTypes.Primary}
+                                htmlType={HtmlTypes.A}
+                            >
+                                See More
+                            </Button>
+                        </Link>
+                    </div>
                 </Container>
             </div>
         </div>
@@ -41,9 +44,9 @@ export default function Home({posts}) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-    const postServ = new postService();
+    const postService = new PostService();
 
-    const posts = await postServ.getByQuantity(4);
+    const posts = await postService.getByQuantity(4);
 
     return {
         props: {posts}

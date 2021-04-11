@@ -1,13 +1,16 @@
 import {apiRequest} from "../utils/request";
+import {ICallbacks} from "../utils/request/types";
 
-export class postService {
+export class PostService {
     getAll() {
         return new Promise((resolve) => {
             apiRequest({
                 url: '/posts',
                 method: "GET",
                 callbacks: {
-                    success: res => {resolve(res);}
+                    success: res => {
+                        resolve(res);
+                    }
                 }
             });
         });
@@ -38,6 +41,35 @@ export class postService {
                     }
                 }
             });
+        });
+    }
+
+    create(data, token, callbacks: ICallbacks) {
+        apiRequest({
+            url: "/posts",
+            method: "POST",
+            data,
+            token,
+            callbacks
+        });
+    }
+
+    update(id, data, token, callbacks: ICallbacks) {
+        apiRequest({
+            url: `/posts/${id}`,
+            method: "PUT",
+            data,
+            token,
+            callbacks
+        });
+    }
+
+    delete(id, token, callbacks: ICallbacks) {
+        apiRequest({
+            url: `/posts/${id}`,
+            method: "DELETE",
+            token,
+            callbacks
         });
     }
 }

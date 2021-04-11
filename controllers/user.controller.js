@@ -24,7 +24,7 @@ router.get("/profile", async (req, res) => {
     }
 });
 
-router.put("/profile", upload.single('file'), async (req, res) => {
+router.put("/profile", upload.single('image'), async (req, res) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
         const userId = jwt.decode(token).userId;

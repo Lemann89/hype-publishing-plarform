@@ -1,4 +1,5 @@
 @import "../../abstracts/variables";
+@import "../../abstracts/mixins";
 
 .header {
   padding: 12px 0;
@@ -21,6 +22,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @include break(768) {
+    display: block;
+  }
 }
 
 .right {
@@ -39,10 +44,65 @@
   &:last-child {
     margin-right: 0;
   }
+
+  @include break(768) {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
 }
 
 .nav {
   margin-top: 5px;
   display: flex;
   align-items: center;
+}
+
+.slideMenu {
+  z-index: 5;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  scroll-behavior: smooth;
+  transition: visibility .5s ease-in-out;
+  visibility: visible;
+}
+
+.slideMenuOverlay {
+  background-color: rgba(0,0,0,.7);
+  visibility: visible;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  transition: all .5s ease-in-out;
+}
+
+.slideMenuInner {
+  right: 0;
+  width: 75%;
+  height: 100%;
+  z-index: 5;
+  max-width: 300px;
+  transform: translate(0)!important;
+  background-color: #fff;
+  transition: transform .5s ease-in-out,-webkit-transform .5s ease-in-out;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+.slideMenuBody {
+  padding: 50px 40px 20px 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &:last-child {
+    margin-top: auto;
+  }
 }
