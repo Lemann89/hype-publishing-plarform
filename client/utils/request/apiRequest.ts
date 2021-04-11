@@ -1,7 +1,5 @@
 import {request} from "./index";
 import {ICallbacks, IReduxHandlers, IRequest} from "./types";
-import cookies from "next-cookies";
-import {cookie} from "express-validator";
 
 export const apiRequest = ({
     url,
