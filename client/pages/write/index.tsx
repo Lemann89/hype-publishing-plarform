@@ -12,7 +12,6 @@ import {PostService} from "../../services/post";
 import {useRouter} from "next/router";
 import {toast, ToastTypes} from "../../utils/toast/toast";
 import ChipInput from 'material-ui-chip-input';
-import {quillFormats, quillModules } from './quil-config';
 import Lines from "../../components/lines/Lines";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useMediaQuery} from "../../hooks/useMediaQuery";
@@ -21,6 +20,23 @@ const ReactQuill = typeof window === 'object' ? require('react-quill') : () => f
 
 const Index = ({token, post}) => {
     const postService = new PostService();
+
+    const quillModules = {
+        toolbar: [
+            [{'header': [1, 2, false]}],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+            ['link', 'image'],
+            ['clean']
+        ],
+    };
+
+    const quillFormats = [
+        'header',
+        'bold', 'italic', 'underline', 'strike',
+        'list', 'bullet', 'indent',
+        'link', 'image'
+    ];
 
     const [articleMarkup, setArticleMarkup] = useState('');
     const [tags, setTags] = useState([]);
