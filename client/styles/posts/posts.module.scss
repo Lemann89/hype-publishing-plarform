@@ -1,0 +1,73 @@
+@import "../abstracts/mixins";
+
+.postsPage {
+  padding: 60px 0;
+}
+
+.heroPage {
+  padding-bottom: 67px;
+}
+
+.posts {
+  width: 70%;
+
+  @include break(768) {
+    width: 100%;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 36px;
+  }
+}
+
+.search {
+  width: 25%;
+  @include break(768) {
+    order: -1;
+    width: 100%;
+    max-width: 293px;
+  }
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  @include break(768) {
+    flex-direction: column;
+  }
+}
+
+.searchBlock {
+  top: 68px;
+  position: sticky;
+  width: 100%;
+  border-radius: 12px;
+
+  @include break(768) {
+    margin-bottom: 40px;
+  }
+}
+
+.post {
+  cursor: pointer;
+}
+
+.postsTitle {
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 26px;
+  margin-bottom: 50px;
+}
+
+.postsBtn {
+  max-width: 150px;
+}
+
+.wrapper {
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+}

@@ -44,6 +44,20 @@ export class PostService {
         });
     }
 
+    getByTag(tag) {
+        return new Promise((resolve) => {
+            apiRequest({
+                url: `/posts?tag=${tag}`,
+                method: "GET",
+                callbacks: {
+                    success: (res) => {
+                        resolve(res);
+                    }
+                }
+            });
+        });
+    }
+
     create(data, token, callbacks: ICallbacks) {
         apiRequest({
             url: "/posts",

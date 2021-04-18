@@ -15,7 +15,7 @@ interface Props {
     placeholder?: string,
     type: InputTypes,
     className?: string,
-    onChange?: () => void,
+    onChange?: (e: any) => void,
     register?: any,
     name?: string,
     textarea?: boolean,

@@ -11,6 +11,11 @@ import cookies from "next-cookies";
 import {PostService} from "../../services/post";
 import {useRouter} from "next/router";
 import {toast, ToastTypes} from "../../utils/toast/toast";
+import ChipInput from 'material-ui-chip-input';
+import {quillFormats, quillModules } from './quil-config';
+import Lines from "../../components/lines/Lines";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {useMediaQuery} from "../../hooks/useMediaQuery";
 
 const ReactQuill = typeof window === 'object' ? require('react-quill') : () => false;
 
@@ -18,13 +23,22 @@ const Index = ({token, post}) => {
     const postService = new PostService();
 
     const [articleMarkup, setArticleMarkup] = useState('');
+    const [tags, setTags] = useState([]);
     const [imagePreview, setImagePreview] = useState(null);
-
+    const isMobile = useMediaQuery(768);
     const {register, handleSubmit, watch, reset, errors} = useForm();
 
     const router = useRouter();
 
     const isEdit = !!post;
+
+    const {isAuthorized} = useTypedSelector(state => state.auth);
+
+    useEffect(() => {
+        if(!isAuthorized) {
+            router.push('/');
+        }
+    }, []);
 
     useEffect(() => {
         if (isEdit) {
@@ -33,28 +47,12 @@ const Index = ({token, post}) => {
             });
             setImagePreview(post?.img);
             setArticleMarkup(post?.articleMarkup);
+            setTags(post?.tags);
         }
     }, [post]);
 
     const image = useRef({});
     image.current = watch("image", "");
-
-    const quillModules = {
-        toolbar: [
-            [{'header': [1, 2, false]}],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-            ['link', 'image'],
-            ['clean']
-        ],
-    };
-
-    const quillFormats = [
-        'header',
-        'bold', 'italic', 'underline', 'strike',
-        'list', 'bullet', 'indent',
-        'link', 'image'
-    ];
 
     const onSubmit = (data) => {
         const formData = new FormData();
@@ -65,7 +63,7 @@ const Index = ({token, post}) => {
 
         formData.append('title', data.title);
         formData.append('articleMarkup', articleMarkup);
-        formData.append('tags', '["JavaScript", "React"]');
+        formData.append('tags', JSON.stringify(tags));
 
         if (isEdit) {
             postService.update(router.query.id, formData, token, {
@@ -94,6 +92,9 @@ const Index = ({token, post}) => {
 
     return (
         <div className={classNames([styles.write, 'write'])}>
+            {
+                !isMobile && <Lines/>
+            }
             <Container post>
                 <h1 className={styles.title}>
                     {
@@ -141,6 +142,18 @@ const Index = ({token, post}) => {
                             }}
                         />
                     </div>
+                    <div className={styles.tags}>
+                        <span className={styles.label}>Tags</span>
+                        <ChipInput
+                            defaultValue={tags}
+                            classes={{
+                                root: 'chip-input',
+                            }}
+                            onChange={(chips) => {
+                                setTags(chips);
+                            }}
+                        />
+                    </div>
                     <Button
                         className={styles.submitBtn}
                         isSubmit={true}
@@ -157,7 +170,7 @@ const Index = ({token, post}) => {
 export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     const postService = new PostService();
 
-    const token = cookies(ctx).token;
+    const token = cookies(ctx).token || null;
 
     const postId = ctx.query.id;
     let post = null;

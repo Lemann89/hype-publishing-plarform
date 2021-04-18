@@ -12,14 +12,26 @@ export class UserService {
         });
     }
 
-    getPosts(token) {
+    get(token) {
         return new Promise((resolve) => {
             apiRequest({
                 url: "/user/profile",
                 method: "GET",
                 token,
                 callbacks: {
-                    success: (res) => {resolve(res.posts);}
+                    success: (res) => {resolve(res);}
+                }
+            });
+        });
+    }
+
+    getById(id) {
+        return new Promise((resolve) => {
+            apiRequest({
+                url: `/user/${id}`,
+                method: "GET",
+                callbacks: {
+                    success: (res) => {resolve(res);}
                 }
             });
         });

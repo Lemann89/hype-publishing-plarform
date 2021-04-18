@@ -1,8 +1,8 @@
 const {Router} = require('express');
-const User = require('../models/user.model');
-const jwt = require('jsonwebtoken');
 const multer = require('multer');
-const uploadImageToStorage = require('../utils/uploadImageToStorage');
+const getUserFromRequest = require("../utils/getUserFromRequest");
+const UserService = require("../services/user.service");
+const normalizeUserData = require("../normalizers/user.normalizer");
 
 const upload = multer({
     storage: multer.memoryStorage(),
@@ -10,51 +10,32 @@ const upload = multer({
 
 const router = Router();
 
-router.get("/profile", async (req, res) => {
-    try {
-        const token = req.headers.authorization.split(" ")[1];
-        const userId = jwt.decode(token).userId;
+const userService = new UserService();
 
-        const user = await User.findById(userId, ['email', 'name', 'img', 'description']).populate('posts');
+router.get("/profile", async (req, res, next) => {
+    const userId = getUserFromRequest(req);
+    const user = await userService.getById(userId).catch(next);
 
-        res.status(200).json(user);
-    } catch (e) {
-        console.log(e);
-        res.status(500).json({message: 'Something went wrong'});
-    }
+    res.status(200).json(user);
 });
 
-router.put("/profile", upload.single('image'), async (req, res) => {
-    try {
-        const token = req.headers.authorization.split(" ")[1];
-        const userId = jwt.decode(token).userId;
+router.put(
+    "/profile",
+    upload.single('image'),
+    async (req, res, next) => {
+        const userId = getUserFromRequest(req);
+        const userData = await normalizeUserData(req.body, req.file);
 
-        const newUserData = {
-            ...req.body,
-        };
+        console.log(userData);
 
-        const file = req.file;
-
-        if(file) {
-            newUserData.img = await uploadImageToStorage(file);
-        }
-
-        await User.updateOne({_id: userId}, newUserData, {new: true});
+        await userService.update(userData, userId).catch(next);
         res.status(200).json({message: 'User was updated'});
-    } catch (e) {
-        res.status(500).json({message: 'Something went wrong'});
-    }
-});
+    });
 
-router.get("/:id", async (req, res) => {
-    try {
-        const id = req.params.id;
-        const user = await User.findById(id, 'email').populate('posts');
+router.get("/:id", async (req, res, next) => {
+    const user = await userService.getById(req.params.id).catch(next);
 
-        res.status(200).json(user);
-    } catch (e) {
-        res.status(500).json({message: 'Something went wrong'});
-    }
+    res.status(200).json(user);
 });
 
 module.exports = router;

@@ -79,6 +79,7 @@
   &__tags {
     margin-top: 40px;
     display: flex;
+    flex-wrap: wrap;
   }
 
   &__tag {
@@ -86,6 +87,7 @@
     font-weight: 500;
     border-radius: 4px;
     margin-right: 30px;
+    margin-bottom: 20px;
 
     &:last-of-type {
       margin-right: 0;
@@ -116,6 +118,7 @@
   &__info {
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
 }
 

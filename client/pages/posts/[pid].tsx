@@ -30,6 +30,10 @@ const Post = ({post, userId, token}) => {
         });
     };
 
+    const onTagButtonClick = (tag) => {
+        router.push(`/posts?tag=${tag}`);
+    };
+
     return (
         <div className={styles.post}>
             <Container post>
@@ -38,7 +42,10 @@ const Post = ({post, userId, token}) => {
                 </h1>
                 <div className={styles.post__infoWrapper}>
                     <div className={styles.post__info}>
-                        <div className={styles.author__info}>
+                        <div className={styles.author__info} onClick={() => {
+                            router.push(`/profile?id=${author._id}`);
+                            console.log(author._id);
+                        }}>
                             <div className={styles.author__img}>
                                 <img src={author.img} alt="author"/>
                             </div>
@@ -79,8 +86,12 @@ const Post = ({post, userId, token}) => {
                     {
                         tags.map((tag) => {
                             return (
-                                <Button type={ButtonTypes.Outline} className={styles.post__tag}
-                                    key={`${tag}#${Math.random()}`}>
+                                <Button
+                                    type={ButtonTypes.Outline}
+                                    className={styles.post__tag}
+                                    onClick={() => {onTagButtonClick(tag);}}
+                                    key={`${tag}#${Math.random()}`}
+                                >
                                     {tag}
                                 </Button>
                             );

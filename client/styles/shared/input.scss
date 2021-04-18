@@ -36,4 +36,30 @@
       display: none;
     }
   }
+
+  &--search {
+    label {
+      font-size: 18px;
+    }
+  }
+}
+
+.chip-input {
+  background-color: #F1F2F5;
+  width: 98%;
+  border: none;
+  border-radius: 4px;
+
+  & > div:before, div:after {
+    display: none;
+  }
+
+  & > div {
+    align-items: center;
+    margin-bottom: 0;
+
+    & > div {
+      margin: 5px;
+    }
+  }
 }

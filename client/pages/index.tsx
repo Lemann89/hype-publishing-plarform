@@ -1,7 +1,7 @@
 import Hero from "../components/basic/hero/Hero";
 import {GetServerSideProps} from "next";
 import {PostService} from "../services/post";
-import styles from "../styles/posts/postCards.module.scss";
+import styles from "../styles/posts/posts.module.scss";
 import Container from "../components/basic/container/Container";
 import PostCard from "../components/posts/PostCard";
 import React from "react";
@@ -11,9 +11,9 @@ import Link from "next/link";
 export default function Home({posts}) {
 
     return (
-        <div>
+        <div className={styles.heroPage}>
             <Hero/>
-            <div className={styles.posts}>
+            <div>
                 <Container>
                     <h2 className={styles.postsTitle}>
                         Last posts

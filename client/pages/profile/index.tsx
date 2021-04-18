@@ -1,41 +1,48 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../components/basic/container/Container';
-import {NextThunkDispatch, wrapper} from '../../store';
+import {wrapper} from '../../store';
 import cookies from "next-cookies";
-import {getUserProfile, setUserInfo} from "../../store/actions/userActions";
-import {useTypedSelector} from "../../hooks/useTypedSelector";
 import styles from '../../styles/profile/profile.module.scss';
 import {useForm} from "react-hook-form";
 import Button, {ButtonTypes} from "../../components/shared/Button/Button";
 import Input, {InputTypes} from '../../components/shared/Input/Input';
-import {useDispatch} from "react-redux";
 import {UserService} from "../../services/user";
 import {toast, ToastTypes} from "../../utils/toast/toast";
 import PostCard from '../../components/posts/PostCard';
 import {getImagePreview} from "../../utils/files/getImagePreview";
+import {useRouter} from "next/router";
 
+const Index = ({token, user}) => {
 
-const Index = ({token, posts}) => {
+    const initialUserInfoState = {
+        name: '',
+        description: '',
+        img: ''
+    };
+
     const userService = new UserService();
 
     const [avatarPreview, setAvatarPreview] = useState(null);
     const [isEditProfile, setIsEditProfile] = useState(false);
-
-    const dispatch = useDispatch();
-
-    const user = useTypedSelector(state => state.user);
-
-    const {info} = user;
-
+    const [userInfo, setUserInfo] = useState(initialUserInfoState);
+    const {posts} = user;
     const {register, handleSubmit, watch, reset} = useForm();
-
+    const router = useRouter();
+    const { id: isNonSelfProfile } = router.query;
 
     useEffect(() => {
         reset({
-            name: info.name,
-            description: info.description
+            ...userInfo
         });
-    }, [info]);
+    }, [userInfo]);
+
+    useEffect(() => {
+        setUserInfo({
+            name: user.name,
+            description: user.description,
+            img: user.img
+        });
+    }, [user]);
 
     const avatar = useRef({});
     avatar.current = watch("avatar", "");
@@ -43,16 +50,16 @@ const Index = ({token, posts}) => {
     const onUserUpdated = (userData) => {
         setIsEditProfile(false);
 
-        const newUserInfo = {...info, ...userData};
-        delete newUserInfo.avatar;
-
-        dispatch(setUserInfo(newUserInfo));
+        setUserInfo({
+            ...userInfo,
+            name: userData.name,
+            description: userData.description
+        });
 
         toast(ToastTypes.SUCCESS, "Success", "Profile was updated");
     };
 
     const onSubmit = (data) => {
-
         const formData = new FormData();
 
         if (data.avatar.length) {
@@ -77,20 +84,22 @@ const Index = ({token, posts}) => {
         return (
             <>
                 <h3 className={styles.user__name}>
-                    {info.name}
+                    {userInfo.name}
                 </h3>
                 <p className={styles.user__description}>
-                    {info.description}
+                    {userInfo.description}
                 </p>
-                <Button
-                    className={styles.user__btnEdit}
-                    type={ButtonTypes.Primary}
-                    onClick={() => {
-                        setIsEditProfile(true);
-                    }}
-                >
-                    Edit
-                </Button>
+                {
+                    !isNonSelfProfile && <Button
+                        className={styles.user__btnEdit}
+                        type={ButtonTypes.Primary}
+                        onClick={() => {
+                            setIsEditProfile(true);
+                        }}
+                    >
+                        Edit
+                    </Button>
+                }
             </>
         );
     };
@@ -132,10 +141,10 @@ const Index = ({token, posts}) => {
                         className={styles.user__btnUndo}
                         type={ButtonTypes.Primary}
                         onClick={() => {
-                            setIsEditProfile(false)
+                            setIsEditProfile(false);
                         }}
                     >
-                        Undo
+                        Cancel
                     </Button>
                 </div>
             </>
@@ -146,11 +155,11 @@ const Index = ({token, posts}) => {
         return (
             <>
                 <h3 className={styles.posts__title}>
-                    You don't have any posts yet 🤷
+                    You does not have any posts yet 🤷
                 </h3>
             </>
-        )
-    }
+        );
+    };
 
     const withPosts = () => {
         return (
@@ -168,8 +177,8 @@ const Index = ({token, posts}) => {
                     }
                 </div>
             </>
-        )
-    }
+        );
+    };
 
     return (
         <Container profile>
@@ -177,7 +186,7 @@ const Index = ({token, posts}) => {
                 <div className={styles.user}>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className={styles.user__img}>
-                            <img src={avatarPreview ? avatarPreview : info.img} alt=""/>
+                            <img src={avatarPreview ? avatarPreview : userInfo.img} alt=""/>
                         </div>
                         {isEditProfile ? editableProfile() : profile()}
                     </form>
@@ -191,18 +200,22 @@ const Index = ({token, posts}) => {
 
 export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
     const userService = new UserService();
-
     const token = cookies(ctx).token;
+    const id = ctx.query.id;
+    let user;
 
-    const dispatch = ctx.store.dispatch as NextThunkDispatch;
-    await dispatch(await getUserProfile(token));
+    console.log('id ', id);
 
-    const posts = await userService.getPosts(token);
+    if (id) {
+        user = await userService.getById(id);
+    } else {
+        user = await userService.get(token);
+    }
 
     return {
         props: {
             token,
-            posts,
+            user,
         }
     };
 });
